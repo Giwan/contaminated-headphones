@@ -18,13 +18,14 @@ const RISK_HIGHLIGHTS: RiskHighlight[] = [
         stroke-width="3"
         stroke-linecap="round"
         stroke-linejoin="round"
+        aria-hidden="true"
       >
         <path d="M12 7v5" />
         <path d="M12 16h.01" />
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
       </svg>
     ),
-    styles: 'bg-rose-50 text-rose-600 border-rose-100'
+    styles: 'bg-rose-50 text-rose-700 border-rose-100'
   },
   {
     title: 'Flame Retardants',
@@ -41,13 +42,14 @@ const RISK_HIGHLIGHTS: RiskHighlight[] = [
         stroke-width="3"
         stroke-linecap="round"
         stroke-linejoin="round"
+        aria-hidden="true"
       >
         <path d="M2 22h20" />
         <path d="M5 22v-5a7 7 0 0 1 14 0v5" />
         <circle cx="12" cy="9" r="2" />
       </svg>
     ),
-    styles: 'bg-amber-50 text-amber-600 border-amber-100'
+    styles: 'bg-amber-50 text-amber-700 border-amber-100'
   },
   {
     title: 'Consumer Advice',
@@ -64,11 +66,12 @@ const RISK_HIGHLIGHTS: RiskHighlight[] = [
         stroke-width="3"
         stroke-linecap="round"
         stroke-linejoin="round"
+        aria-hidden="true"
       >
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
       </svg>
     ),
-    styles: 'bg-emerald-50 text-emerald-600 border-emerald-100'
+    styles: 'bg-emerald-50 text-emerald-700 border-emerald-100'
   }
 ];
 
