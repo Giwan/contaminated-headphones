@@ -31,19 +31,22 @@ const coverageLinks = [
 ];
 
 interface NewsCoverageProps {
-  onNavigateHome: () => void;
+  onNavigateHome?: () => void;
 }
 
 export const NewsCoverage = (props: NewsCoverageProps) => (
   <section class="max-w-5xl mx-auto px-8 py-24 text-slate-900">
-    <button
-      type="button"
-      onClick={props.onNavigateHome}
+    <a
+      href="/#"
+      onClick={(event) => {
+        event.preventDefault();
+        props.onNavigateHome?.();
+      }}
       class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-3"
     >
       <span class="inline-block w-10 h-[2px] bg-slate-200" aria-hidden="true" />
       Back to dashboard
-    </button>
+    </a>
 
     <p class="text-slate-300 font-black uppercase tracking-[0.4em] text-xs mt-12">Global Coverage</p>
     <h2 class="text-5xl font-black tracking-tighter leading-tight mt-4">

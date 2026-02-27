@@ -1,4 +1,5 @@
-import { createSignal, Show, createMemo, onMount, createEffect, onCleanup } from 'solid-js';
+import { createSignal, Show, createMemo, createEffect } from 'solid-js';
+import { useLocation, useNavigate } from '@solidjs/router';
 import { headphones, HeadphoneData } from './data';
 import { AppHeader } from './components/AppHeader';
 import { EmptyState } from './components/EmptyState';
@@ -15,56 +16,31 @@ const findHeadphoneBySlug = (slug: string) =>
   headphones.find((headphone) => headphoneSlug(headphone) === slug) ?? null;
 
 export default function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [search, setSearch] = createSignal("");
-  const [selected, setSelected] = createSignal<HeadphoneData | null>(null);
   const [copied, setCopied] = createSignal(false);
-  const [view, setView] = createSignal<'dashboard' | 'news'>('dashboard');
+  const [lastViewedSlug, setLastViewedSlug] = createSignal<string | null>(null);
 
-  // Sync URL hash with selected model
-  onMount(() => {
-    if (typeof window === 'undefined') return;
+  const selectedSlug = createMemo(() => {
+    const path = location.pathname;
+    const match = path.match(/^\/headphones\/(.+)$/);
+    return match ? match[1] : null;
+  });
 
-    const handleHashChange = () => {
-      const hash = window.location.hash.slice(1);
-      if (hash === 'news') {
-        setView('news');
-        setSelected(null);
-        return;
-      }
-
-      const match = hash ? findHeadphoneBySlug(hash) : null;
-      setSelected(match);
-      setView('dashboard');
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-    handleHashChange();
-
-    onCleanup(() => window.removeEventListener('hashchange', handleHashChange));
+  const selected = createMemo<HeadphoneData | null>(() => {
+    const slug = selectedSlug();
+    return slug ? findHeadphoneBySlug(slug) : null;
   });
 
   createEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (view() === 'news') {
-      if (window.location.hash.slice(1) !== 'news') {
-        window.location.hash = 'news';
-      }
-      return;
-    }
-
-    const current = selected();
-    if (current) {
-      const slug = headphoneSlug(current);
-      if (window.location.hash.slice(1) !== slug) {
-        window.location.hash = slug;
-      }
-      return;
-    }
-
-    if (window.location.hash) {
-      history.replaceState(null, "", window.location.pathname + window.location.search);
+    const slug = selectedSlug();
+    if (slug) {
+      setLastViewedSlug(slug);
     }
   });
+
+  const isNewsView = createMemo(() => location.pathname === '/news');
 
   const handleCopyLink = async () => {
     if (typeof navigator === 'undefined' || !navigator.clipboard) return;
@@ -79,11 +55,27 @@ export default function App() {
   };
 
   const showNews = () => {
-    setView('news');
-    setSelected(null);
+    navigate('/news');
   };
 
-  const showDashboard = () => setView('dashboard');
+  const showDashboard = () => {
+    const recent = lastViewedSlug();
+    if (recent) {
+      navigate(`/headphones/${recent}`);
+      return;
+    }
+    navigate('/');
+  };
+
+  const handleHeadphoneSelect = (item: HeadphoneData) => {
+    navigate(`/headphones/${headphoneSlug(item)}`);
+    setSearch("");
+  };
+
+  const handleResetSelection = () => {
+    setLastViewedSlug(null);
+    navigate('/');
+  };
 
   const filteredHeadphones = createMemo(() => {
     const term = search().trim().toLowerCase();
@@ -102,27 +94,21 @@ export default function App() {
         searchValue={search()}
         onSearchChange={setSearch}
         suggestions={filteredHeadphones()}
-        onSuggestionSelect={(item) => {
-          setSelected(item);
-          setSearch("");
-        }}
-        isNewsView={view() === 'news'}
+        onSuggestionSelect={handleHeadphoneSelect}
+        isNewsView={isNewsView()}
         onNavigateNews={showNews}
         onNavigateDashboard={showDashboard}
       />
 
       <main class="max-w-6xl mx-auto px-8 py-20">
         <Show
-          when={view() === 'news'}
+          when={isNewsView()}
           fallback={
-            <Show
-              when={selected()}
-              fallback={<EmptyState />}
-            >
+            <Show when={selected()} fallback={<EmptyState />}>
               {(data) => (
                 <HeadphoneDetails
                   headphone={data()}
-                  onReset={() => setSelected(null)}
+                  onReset={handleResetSelection}
                   onShare={handleCopyLink}
                   copied={copied()}
                 />

@@ -17,9 +17,12 @@ export const AppHeader = (props: AppHeaderProps) => (
     <div class="max-w-6xl mx-auto px-8 py-8 flex flex-col gap-8">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div>
-          <h1 class="text-4xl font-black tracking-tighter text-slate-900 leading-none">
+          <a
+            href="/"
+            class="inline-block text-left text-4xl font-black tracking-tighter text-slate-900 leading-none hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-500"
+          >
             THE SOUND OF <span class="text-rose-600">CONTAMINATION</span>
-          </h1>
+          </a>
           <p class="text-lg font-medium text-slate-400 mt-2 tracking-tight flex items-center gap-3">
             Headphone Chemical Safety Dashboard
             <span class="w-1 h-1 bg-slate-200 rounded-full" />
@@ -34,14 +37,16 @@ export const AppHeader = (props: AppHeaderProps) => (
           >
             Download PDF Report
           </a>
-          <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] hidden md:block">Feb 2026</span>
-          <button
-            type="button"
-            onClick={props.isNewsView ? props.onNavigateDashboard : props.onNavigateNews}
+          <a
+            href={props.isNewsView ? '/' : '/news'}
+            onClick={(event) => {
+              event.preventDefault();
+              props.isNewsView ? props.onNavigateDashboard() : props.onNavigateNews();
+            }}
             class="border-2 border-slate-900 px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white transition-colors"
           >
-            {props.isNewsView ? 'Back to Dashboard' : 'News Coverage'}
-          </button>
+            {props.isNewsView ? 'Dashboard' : 'News'}
+          </a>
         </div>
       </div>
 
