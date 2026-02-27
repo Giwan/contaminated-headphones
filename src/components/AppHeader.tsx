@@ -7,6 +7,9 @@ interface AppHeaderProps {
   onSearchChange: (value: string) => void;
   suggestions: HeadphoneData[];
   onSuggestionSelect: (item: HeadphoneData) => void;
+  isNewsView: boolean;
+  onNavigateNews: () => void;
+  onNavigateDashboard: () => void;
 }
 
 export const AppHeader = (props: AppHeaderProps) => (
@@ -32,13 +35,20 @@ export const AppHeader = (props: AppHeaderProps) => (
             Download PDF Report
           </a>
           <span class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] hidden md:block">Feb 2026</span>
+          <button
+            type="button"
+            onClick={props.isNewsView ? props.onNavigateDashboard : props.onNavigateNews}
+            class="border-2 border-slate-900 px-4 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white transition-colors"
+          >
+            {props.isNewsView ? 'Back to Dashboard' : 'News Coverage'}
+          </button>
         </div>
       </div>
 
       <div class="relative group">
         <input
           type="text"
-          placeholder="Search headphone model..."
+          placeholder="Search headphone brand or model..."
           class="w-full bg-slate-50 border-4 border-slate-100 rounded-none px-8 py-4 text-xl font-black focus:outline-none focus:border-rose-500 transition-all pr-24 placeholder:text-slate-300"
           onInput={(e) => props.onSearchChange(e.currentTarget.value)}
           value={props.searchValue}

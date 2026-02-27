@@ -3,6 +3,7 @@ import { headphones, HeadphoneData } from './data';
 import { AppHeader } from './components/AppHeader';
 import { EmptyState } from './components/EmptyState';
 import { HeadphoneDetails } from './components/HeadphoneDetails';
+import { NewsCoverage } from './components/NewsCoverage';
 import { HEADPHONE_RESULT_LIMIT } from './constants/ui';
 
 const headphoneSlug = (item: HeadphoneData) =>
@@ -17,6 +18,7 @@ export default function App() {
   const [search, setSearch] = createSignal("");
   const [selected, setSelected] = createSignal<HeadphoneData | null>(null);
   const [copied, setCopied] = createSignal(false);
+  const [view, setView] = createSignal<'dashboard' | 'news'>('dashboard');
 
   // Sync URL hash with selected model
   onMount(() => {
@@ -24,7 +26,15 @@ export default function App() {
 
     const handleHashChange = () => {
       const hash = window.location.hash.slice(1);
-      setSelected(hash ? findHeadphoneBySlug(hash) : null);
+      if (hash === 'news') {
+        setView('news');
+        setSelected(null);
+        return;
+      }
+
+      const match = hash ? findHeadphoneBySlug(hash) : null;
+      setSelected(match);
+      setView('dashboard');
     };
 
     window.addEventListener('hashchange', handleHashChange);
@@ -35,9 +45,19 @@ export default function App() {
 
   createEffect(() => {
     if (typeof window === 'undefined') return;
+    if (view() === 'news') {
+      if (window.location.hash.slice(1) !== 'news') {
+        window.location.hash = 'news';
+      }
+      return;
+    }
+
     const current = selected();
     if (current) {
-      window.location.hash = headphoneSlug(current);
+      const slug = headphoneSlug(current);
+      if (window.location.hash.slice(1) !== slug) {
+        window.location.hash = slug;
+      }
       return;
     }
 
@@ -57,6 +77,13 @@ export default function App() {
       console.error('Failed to copy link', error);
     }
   };
+
+  const showNews = () => {
+    setView('news');
+    setSelected(null);
+  };
+
+  const showDashboard = () => setView('dashboard');
 
   const filteredHeadphones = createMemo(() => {
     const term = search().trim().toLowerCase();
@@ -79,21 +106,31 @@ export default function App() {
           setSelected(item);
           setSearch("");
         }}
+        isNewsView={view() === 'news'}
+        onNavigateNews={showNews}
+        onNavigateDashboard={showDashboard}
       />
 
       <main class="max-w-6xl mx-auto px-8 py-20">
         <Show
-          when={selected()}
-          fallback={<EmptyState />}
+          when={view() === 'news'}
+          fallback={
+            <Show
+              when={selected()}
+              fallback={<EmptyState />}
+            >
+              {(data) => (
+                <HeadphoneDetails
+                  headphone={data()}
+                  onReset={() => setSelected(null)}
+                  onShare={handleCopyLink}
+                  copied={copied()}
+                />
+              )}
+            </Show>
+          }
         >
-          {(data) => (
-            <HeadphoneDetails
-              headphone={data()}
-              onReset={() => setSelected(null)}
-              onShare={handleCopyLink}
-              copied={copied()}
-            />
-          )}
+          <NewsCoverage onNavigateHome={showDashboard} />
         </Show>
       </main>
 
