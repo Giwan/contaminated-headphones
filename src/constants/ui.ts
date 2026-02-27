@@ -27,9 +27,9 @@ export const ratingBadgeDescriptions: Record<ExtendedRatingLevel, string> = {
 };
 
 export const totalRatingPanelStyles: Record<RatingLevel, string> = {
-  green: 'bg-emerald-500 border-emerald-600 text-emerald-50',
-  yellow: 'bg-amber-500 border-amber-600 text-amber-50',
-  red: 'bg-rose-500 border-rose-600 text-rose-50'
+  green: 'bg-emerald-500 border-emerald-600 text-emerald-950',
+  yellow: 'bg-amber-500 border-amber-600 text-amber-950',
+  red: 'bg-rose-500 border-rose-600 text-rose-950'
 };
 
 export const ratingDotColors: Record<RatingLevel, string> = {

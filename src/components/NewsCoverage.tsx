@@ -37,18 +37,19 @@ interface NewsCoverageProps {
 export const NewsCoverage = (props: NewsCoverageProps) => (
   <section class="max-w-5xl mx-auto px-8 py-24 text-slate-900">
     <a
-      href="/#"
+      href="/"
       onClick={(event) => {
         event.preventDefault();
         props.onNavigateHome?.();
       }}
-      class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 hover:text-slate-900 transition-colors flex items-center gap-3"
+      aria-label="Back to dashboard"
+      class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-3"
     >
       <span class="inline-block w-10 h-[2px] bg-slate-200" aria-hidden="true" />
       Back to dashboard
     </a>
 
-    <p class="text-slate-300 font-black uppercase tracking-[0.4em] text-xs mt-12">Global Coverage</p>
+    <p class="text-slate-500 font-black uppercase tracking-[0.4em] text-xs mt-12">Global Coverage</p>
     <h2 class="text-5xl font-black tracking-tighter leading-tight mt-4">
       Newsrooms amplifying
       <span class="text-rose-600"> the contamination alarm.</span>
@@ -64,17 +65,18 @@ export const NewsCoverage = (props: NewsCoverageProps) => (
           <article class="border-2 border-slate-100 p-8 bg-white shadow-[10px_10px_0_0_rgba(15,23,42,0.08)] flex flex-col gap-4">
             <div class="flex items-center justify-between text-[11px] font-black uppercase tracking-[0.4em] text-slate-400">
               <span>{article.outlet}</span>
-              <span class="text-slate-300">{article.region}</span>
+              <span class="text-slate-500">{article.region}</span>
             </div>
             <h3 class="text-2xl font-black tracking-tight text-slate-900 leading-snug">
               {article.title}
             </h3>
-            <p class="text-sm font-bold uppercase tracking-[0.3em] text-rose-500">{article.date}</p>
+            <p class="text-sm font-bold uppercase tracking-[0.3em] text-rose-700">{article.date}</p>
             <p class="text-base text-slate-500 leading-relaxed">{article.summary}</p>
             <a
               href={article.url}
               target="_blank"
               rel="noreferrer"
+              aria-label={`Read coverage: ${article.title} (opens in new tab)`}
               class="mt-4 inline-flex items-center gap-3 text-sm font-black uppercase tracking-[0.3em] text-slate-900 hover:text-rose-600"
             >
               Read coverage

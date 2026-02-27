@@ -19,6 +19,7 @@ export const ActionAdviceSection = (props: ActionAdviceSectionProps) => (
         stroke-width="3"
         stroke-linecap="round"
         stroke-linejoin="round"
+        aria-hidden="true"
       >
         <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
       </svg>
@@ -35,6 +36,8 @@ export const ActionAdviceSection = (props: ActionAdviceSectionProps) => (
         <a
           href={props.supportLink}
           target="_blank"
+          rel="noreferrer"
+          aria-label={`Contact ${props.manufacturer} Support (opens in new tab)`}
           class="inline-flex items-center gap-4 bg-rose-600 text-white px-10 py-6 text-xl font-black uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-all border-4 border-rose-600"
         >
           Contact {props.manufacturer} Support
@@ -48,6 +51,7 @@ export const ActionAdviceSection = (props: ActionAdviceSectionProps) => (
             stroke-width="4"
             stroke-linecap="round"
             stroke-linejoin="round"
+            aria-hidden="true"
           >
             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
             <polyline points="15 3 21 3 21 9" />
