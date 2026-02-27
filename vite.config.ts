@@ -1,15 +1,14 @@
 import tailwindcss from '@tailwindcss/vite';
 import solidPlugin from 'vite-plugin-solid';
 import path from 'path';
-import {defineConfig, loadEnv} from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, '.', '');
+export default defineConfig(() => {
+  const repoBasePath = '/contaminated-headphones/';
+  const isPagesBuild = Boolean(process.env.GITHUB_PAGES);
   return {
+    base: isPagesBuild ? repoBasePath : '/',
     plugins: [solidPlugin(), tailwindcss()],
-    define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
