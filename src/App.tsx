@@ -7,12 +7,12 @@ import { HeadphoneDetails } from './components/HeadphoneDetails';
 import { NewsCoverage } from './components/NewsCoverage';
 import { HEADPHONE_RESULT_LIMIT } from './constants/ui';
 
-const headphoneSlug = (item: HeadphoneData) =>
+export const headphoneSlug = (item: HeadphoneData) =>
   `${item.manufacturer}-${item.model}`
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-');
 
-const findHeadphoneBySlug = (slug: string) =>
+export const findHeadphoneBySlug = (slug: string) =>
   headphones.find((headphone) => headphoneSlug(headphone) === slug) ?? null;
 
 export default function App() {
