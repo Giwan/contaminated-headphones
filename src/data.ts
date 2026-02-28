@@ -9,6 +9,52 @@ export interface HeadphoneData {
   actionAdvice?: string;
 }
 
+export const riskStatistics = {
+  total: 81,
+  green: 24,
+  yellow: 23,
+  red: 34,
+  childModels: 15,
+  bpaFound: 177,
+  opfrFound: 58,
+  greenPercent: 30,
+  yellowPercent: 28,
+  redPercent: 42
+};
+
+export const riskCategories = {
+  safe: 24,
+  moderate: 23,
+  highRisk: 34
+};
+
+export const categoryNavigation = [
+  {
+    id: 'safe-headphones',
+    title: 'Safe Headphones',
+    description: 'Meet most protective standards',
+    count: 24,
+    color: 'emerald',
+    icon: '✓'
+  },
+  {
+    id: 'moderate-risk',
+    title: 'Moderate Risk',
+    description: 'Some concerns but within voluntary limits',
+    count: 23,
+    color: 'amber',
+    icon: '?'
+  },
+  {
+    id: 'high-risk',
+    title: 'High Risk',
+    description: 'Non-compliant or multiple hazards',
+    count: 34,
+    color: 'rose',
+    icon: '!'
+  }
+];
+
 export const headphones: HeadphoneData[] = [
   { 
     manufacturer: "LifeBee", 
@@ -18,6 +64,16 @@ export const headphones: HeadphoneData[] = [
     nonSkinRating: "yellow", 
     totalRating: "green",
     actionAdvice: "Contact the retailer for information on their chemical safety standards."
+  },
+  { 
+    manufacturer: "Picun", 
+    model: "B8 Wireless Over ear", 
+    type: "over ear adult", 
+    skinRating: "green", 
+    nonSkinRating: "green", 
+    totalRating: "green",
+    supportLink: "https://www.picun.com/support",
+    actionAdvice: "This model meets high safety standards. Contact Picun support for detailed material specifications."
   },
   { 
     manufacturer: "Picun", 
