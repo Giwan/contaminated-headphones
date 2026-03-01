@@ -20,9 +20,9 @@ const renderWithRouter = (path = '/') => {
 };
 
 describe('App', () => {
-  it('shows the empty state on the dashboard when nothing is selected', () => {
+  it('shows the hero content on the dashboard when nothing is selected', () => {
     renderWithRouter();
-    expect(screen.getByText(/Search for your model to see the risk report/i)).toBeInTheDocument();
+    expect(screen.getByText(/Your Headphones Might Be Toxic/i)).toBeInTheDocument();
   });
 
   it('renders the news view when visiting /news', async () => {
